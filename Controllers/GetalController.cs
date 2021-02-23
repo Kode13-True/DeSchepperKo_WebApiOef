@@ -15,15 +15,18 @@ namespace WebApiOef.Controllers
         public string fileNumber = @"C:\Users\Public\Documents\getal.txt";
         public GetalController() 
         {
-            List<string> numberList = new List<string>();
-            numberList.Add("25");
-            System.IO.File.WriteAllLines(fileNumber, numberList);
+            if (!System.IO.File.Exists(fileNumber)) 
+            {
+                List<string> numberList = new List<string>();
+                numberList.Add("25");
+                System.IO.File.WriteAllLines(fileNumber, numberList);
+            }
         }
 
         [HttpGet]
         public ActionResult<int> GetNumber() 
         {
-            if (System.IO.File.Exists(fileNumber) == false) 
+            if (!System.IO.File.Exists(fileNumber)) 
             {
                 return NotFound();
             }
@@ -36,7 +39,7 @@ namespace WebApiOef.Controllers
         [HttpPost("Post1")]
         public ActionResult<int> PutInNumber(int yourNumber) 
         {
-            if (System.IO.File.Exists(fileNumber) == false)
+            if (!System.IO.File.Exists(fileNumber))
             {
                 return NotFound();
             }
@@ -52,7 +55,7 @@ namespace WebApiOef.Controllers
         [HttpPost("Post2")]
         public ActionResult<int> GetRandomNumber()
         {
-            if (System.IO.File.Exists(fileNumber) == false)
+            if (!System.IO.File.Exists(fileNumber))
             {
                 return NotFound();
             }
